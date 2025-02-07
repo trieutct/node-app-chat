@@ -1,6 +1,37 @@
 import { HttpStatus } from "../common/constants.js";
 import jwt from "jsonwebtoken";
 
+const removeDuplicateErrors = (errors) => {
+    const seenKeys = new Set();
+    return errors.filter((error) => {
+        if (seenKeys.has(error.key)) {
+            return false; // Nếu đã thấy key, loại bỏ
+        }
+        seenKeys.add(error.key); // Thêm key vào Set
+        return true; // Giữ lại lỗi đầu tiên
+    });
+};
+
+const convertErrors = (errors, errorCode) => {
+    const formattedErrors = errors.map((error) => {
+        if (
+            error.type === "field" &&
+            error.path &&
+            error.msg &&
+            error.location
+        ) {
+            return {
+                key: error.path,
+                message: error.msg,
+                error: errorCode,
+            };
+        }
+        return error;
+    });
+
+    return removeDuplicateErrors(formattedErrors);
+};
+
 export class ErrorResponse {
     constructor(
         code = HttpStatus.INTERNAL_SERVER_ERROR,
@@ -10,7 +41,7 @@ export class ErrorResponse {
         return {
             code,
             message,
-            errors,
+            errors: convertErrors(errors, code),
         };
     }
 }

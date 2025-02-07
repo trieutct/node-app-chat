@@ -15,3 +15,13 @@ export const validateSignUp = [
             "Password is required and must be at least 6 characters long."
         ),
 ];
+
+export const validateLogin = [
+    body("email").isEmail().withMessage("A valid email is required."),
+    body("password")
+        .isString()
+        .isLength({ min: 6 })
+        .withMessage(
+            "Password is required and must be at least 6 characters long."
+        ),
+];

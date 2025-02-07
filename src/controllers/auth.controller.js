@@ -9,7 +9,6 @@ import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 
 export const singUp = async (req, res) => {
-    const { fullName, email, password } = req.body;
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -23,6 +22,8 @@ export const singUp = async (req, res) => {
                     )
                 );
         }
+
+        const { fullName, email, password } = req.body;
 
         if (password?.length < 6) {
             return res
@@ -89,11 +90,43 @@ export const singUp = async (req, res) => {
         }
     } catch (error) {
         console.log(`Error singup: ${error}`.red);
+
+        return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, error));
     }
 };
 
 export const login = (req, res) => {
-    res.send("login route");
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res
+                .status(HttpStatus.BAD_REQUEST)
+                .json(
+                    new ErrorResponse(
+                        HttpStatus.BAD_REQUEST,
+                        errors?.errors[0]?.msg || "",
+                        errors?.errors || []
+                    )
+                );
+        }
+
+        const { email, password } = req.body;
+
+        res.status(HttpStatus.OK).json(
+            new SuccessResponse({
+                email,
+                password,
+            })
+        );
+    } catch (error) {
+        console.log(`Error login: ${error}`.red);
+
+        return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, error));
+    }
 };
 
 export const logOut = (req, res) => {
