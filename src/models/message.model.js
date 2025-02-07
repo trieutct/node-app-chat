@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { SCHEMA_NAMES } from "../common/constants";
+import { SCHEMA_NAMES } from "../common/constants.js";
 
 const messgeSchema = new mongoose.Schema(
     {

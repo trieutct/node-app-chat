@@ -1,8 +1,8 @@
-import { HttpStatus } from "../common/constants";
+import { HttpStatus } from "../common/constants.js";
 import cloudianry from "../lib/cloudinary.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
-import { ErrorResponse, SuccessResponse } from "../utils/api.response";
+import { ErrorResponse, SuccessResponse } from "../utils/api.response.js";
 
 export const getUsersForSidebar = async (req, res) => {
     try {
