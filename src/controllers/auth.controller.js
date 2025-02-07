@@ -6,17 +6,20 @@ import {
 } from "../utils/api.response.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { validationResult } from "express-validator";
 
 export const singUp = async (req, res) => {
     const { fullName, email, password } = req.body;
     try {
-        if (!fullName || !email || !password) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
             return res
                 .status(HttpStatus.BAD_REQUEST)
                 .json(
                     new ErrorResponse(
                         HttpStatus.BAD_REQUEST,
-                        "All fields are required"
+                        "All fields are required",
+                        errors?.errors || []
                     )
                 );
         }
@@ -35,12 +38,18 @@ export const singUp = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user) {
+            const error = {
+                key: "email",
+                message: "Email already exists",
+            };
+
             return res
                 .status(HttpStatus.BAD_REQUEST)
                 .json(
                     new ErrorResponse(
                         HttpStatus.BAD_REQUEST,
-                        "Email already exists"
+                        "Email already exists",
+                        [error]
                     )
                 );
         }
