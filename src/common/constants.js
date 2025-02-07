@@ -1,9 +1,6 @@
 export const SCHEMA_NAMES = {
     USER: "User",
-    POST: "Post",
-    COMMENT: "Comment",
-    CATEGORY: "Category",
-    TAG: "Tag",
+    MESSAGE: "Message",
 };
 
 export const HttpStatus = {
@@ -29,4 +26,3 @@ export const HttpStatus = {
     OVER_LIMIT: 447,
     ITEM_IS_INVALID: 448,
 };
-
