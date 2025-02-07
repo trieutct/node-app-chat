@@ -25,3 +25,11 @@ export const validateLogin = [
             "Password is required and must be at least 6 characters long."
         ),
 ];
+
+export const validateUpdateProfile = [
+    body("profilePic")
+        .exists()
+        .withMessage("Profile picture URL is required.") 
+        .isURL()
+        .withMessage("A valid URL for the profile picture is required."),
+];
