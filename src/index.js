@@ -5,12 +5,22 @@ import dotenv from "dotenv";
 import _ from "colors";
 import { connectD } from "./lib/db.js";
 import cookieParer from "cookie-parser";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
+
 const PORT = process.env.PORT || 3001;
+
 app.use(express.json());
 app.use(cookieParer());
+
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);

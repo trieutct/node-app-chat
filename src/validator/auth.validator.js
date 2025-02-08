@@ -29,7 +29,9 @@ export const validateLogin = [
 export const validateUpdateProfile = [
     body("profilePic")
         .exists()
-        .withMessage("Profile picture URL is required.") 
-        .isURL()
-        .withMessage("A valid URL for the profile picture is required."),
+        .withMessage("Profile picture data is required.")
+        .isString()
+        .withMessage("Profile picture must be a string.")
+        .matches(/^data:image\/[a-zA-Z]+;base64,.*$/)
+        .withMessage("A valid base64 string for the profile picture is required."),
 ];

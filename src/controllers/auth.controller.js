@@ -23,7 +23,6 @@ export const singUp = async (req, res) => {
                     )
                 );
         }
-
         const { fullName, email, password } = req.body;
 
         if (password?.length < 6) {

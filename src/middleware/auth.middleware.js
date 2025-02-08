@@ -5,7 +5,7 @@ import { ErrorResponse } from "../utils/api.response.js";
 
 export const protectRoute = async (req, res, next) => {
     try {
-        const token = req.cookies.jwt;
+        const token = req?.cookies?.jwt;
         if (!token) {
             res.status(HttpStatus.UNAUTHORIZED).json(
                 new ErrorResponse(
